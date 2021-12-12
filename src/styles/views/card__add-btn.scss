@@ -1,0 +1,19 @@
+.card__add-btn {
+  background: inherit;
+  border: none;
+  display: block;
+  margin: 0 auto;
+}
+
+.card__add-svg {
+  fill: #e54949;
+  width: 70px;
+  height: 70px;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    fill: #f37979;
+  }
+}

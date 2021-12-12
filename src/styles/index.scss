@@ -1,0 +1,15 @@
+// Fonts
+@import './fonts.scss';
+
+// Initial
+.container {
+  margin: 0 auto;
+  width: 80%;
+  max-width: 600px;
+}
+
+// Views
+@import 'views/card__list';
+@import 'views/card__item';
+@import 'views/card__add-btn';
+@import 'views/modal';
