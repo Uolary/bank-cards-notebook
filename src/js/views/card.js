@@ -1,3 +1,5 @@
+import {$on, qs} from "../helpers/helpers";
+
 export default class Card {
   /**
    * Get html card
@@ -12,11 +14,11 @@ export default class Card {
           <div class="card__number">
             ${card.cardNumber}
           </div>
-          <button class="card__remove-btn">
+          <button class="card__remove-btn" data-id="${card.cardNumber}">
             <svg class="card__remove-svg" width="512px" height="512px" viewBox="0 0 512 512">
-                <g>
-                    <path d="M413.7,133.4c-2.4-9-4-14-4-14c-2.6-9.3-9.2-9.3-19-10.9l-53.1-6.7c-6.6-1.1-6.6-1.1-9.2-6.8c-8.7-19.6-11.4-31-20.9-31   h-103c-9.5,0-12.1,11.4-20.8,31.1c-2.6,5.6-2.6,5.6-9.2,6.8l-53.2,6.7c-9.7,1.6-16.7,2.5-19.3,11.8c0,0-1.2,4.1-3.7,13   c-3.2,11.9-4.5,10.6,6.5,10.6h302.4C418.2,144.1,417,145.3,413.7,133.4z"/><path d="M379.4,176H132.6c-16.6,0-17.4,2.2-16.4,14.7l18.7,242.6c1.6,12.3,2.8,14.8,17.5,14.8h207.2c14.7,0,15.9-2.5,17.5-14.8   l18.7-242.6C396.8,178.1,396,176,379.4,176z"/>
-                </g>
+              <g>
+                <path d="M413.7,133.4c-2.4-9-4-14-4-14c-2.6-9.3-9.2-9.3-19-10.9l-53.1-6.7c-6.6-1.1-6.6-1.1-9.2-6.8c-8.7-19.6-11.4-31-20.9-31   h-103c-9.5,0-12.1,11.4-20.8,31.1c-2.6,5.6-2.6,5.6-9.2,6.8l-53.2,6.7c-9.7,1.6-16.7,2.5-19.3,11.8c0,0-1.2,4.1-3.7,13   c-3.2,11.9-4.5,10.6,6.5,10.6h302.4C418.2,144.1,417,145.3,413.7,133.4z"/><path d="M379.4,176H132.6c-16.6,0-17.4,2.2-16.4,14.7l18.7,242.6c1.6,12.3,2.8,14.8,17.5,14.8h207.2c14.7,0,15.9-2.5,17.5-14.8   l18.7-242.6C396.8,178.1,396,176,379.4,176z"/>
+              </g>
             </svg>
           </button>
         </div>
@@ -25,5 +27,18 @@ export default class Card {
         </div>
       </li>
     `;
+  }
+
+  /**
+   * Remove card
+   *
+   * @param {Function} handler Handler function called on synthetic event
+   */
+  bindRemoveCard(handler) {
+    $on(qs('.card__list'), 'click', (event) => {
+      if (event.target.closest('.card__remove-btn')) {
+        handler(event.target.closest('.card__remove-btn').dataset.id);
+      }
+    });
   }
 }
