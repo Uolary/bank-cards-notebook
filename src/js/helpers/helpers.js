@@ -19,3 +19,15 @@ export const qs = (selector, scope) => (
 export const $on = (target, eventType, callback, capture) => {
   target.addEventListener(eventType, callback, !!capture);
 };
+
+/**
+ * RemoveEventListener
+ *
+ * @param {Element|Window} target Target Element
+ * @param {string} eventType Event name to bind to
+ * @param {Function} callback Event callback
+ * @param {boolean} [capture] Capture the event
+ */
+export const $off = (target, eventType, callback, capture) => {
+  target.removeEventListener(eventType, callback, !!capture);
+};

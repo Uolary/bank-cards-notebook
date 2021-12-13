@@ -1,16 +1,21 @@
 export default class Controller {
   /**
    * @param  {!Store} store A Store instance
+   * @param  {!Modal} modal A modal instance
    * @param  {!CardList} cardList A cardList instance
    * @param  {!Card} card A card instance
    */
-  constructor(store, cardList, card) {
+  constructor(store, modal, cardList, card) {
     this.store = store;
     this.storeData = this.store.loadData() || [];
+    this.modal = modal;
     this.cardList = cardList;
     this.card = card;
 
-    card.bindRemoveCard(this.removeCard.bind(this));
+    this.modal.clickAddCard(() => {
+      this.modal.bindAddCard(this.addCard.bind(this));
+    });
+    this.card.bindRemoveCard(this.removeCard.bind(this));
   }
 
   /**
@@ -34,10 +39,29 @@ export default class Controller {
 
     if (this.storeData.length === 0) {
       this.cardList.renderEmptyList();
+      this.store.saveData(this.storeData);
     } else {
       this.store.saveData(this.storeData, () => {
         this.cardList.renderCardList(this.storeData);
       });
     }
+  }
+
+  /**
+   * Add card to storage and card list
+   *
+   * @param {Object} values Object with card number and description
+   */
+  addCard(values) {
+    this.storeData = [
+      ...this.storeData,
+      {
+        cardNumber: values.cardNumber,
+        description: values.description
+      }
+    ];
+
+    this.store.saveData(this.storeData);
+    this.cardList.renderCardList(this.storeData);
   }
 }
