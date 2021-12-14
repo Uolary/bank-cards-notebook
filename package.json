@@ -42,6 +42,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "babel-plugin-add-module-exports": "^1.0.4",
+    "creditcard.js": "^3.0.13",
     "lodash": "^4.17.21"
   }
 }

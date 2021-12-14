@@ -23,14 +23,13 @@
   width: 60px;
   height: 60px;
   vertical-align: middle;
-  margin-right: 15px;
 }
 
 .card__number {
   font-size: 30px;
   color: #414141;
   flex-grow: 1;
-  margin-right: 25px;
+  margin: 0 25px 0;
 }
 
 .card__remove-btn {
@@ -55,4 +54,5 @@
 .card__description {
   font-size: 18px;
   line-height: 1.6;
+  margin: 0;
 }

@@ -61,7 +61,7 @@ export default class Modal {
   clickAddCard(handler) {
     $on(qs('.card__add-btn'), 'click', () => {
       qs('.app').insertAdjacentHTML('beforeend', `
-        <section class="modal">
+        <section class="modal" aria-modal="true" role="dialog">
           <div class="modal__bg"></div>
           <div class="container modal__inner">
             <button class="modal__close"></button>
@@ -73,7 +73,7 @@ export default class Modal {
               <div class="modal__row">
                   <textarea class="modal__input" id="card-description" placeholder="Desctiption" rows="10"></textarea>
               </div>
-              <button class="modal__add-card">
+              <button class="modal__add-card" aria-label="Close">
                   Add
               </button>
             </form>
