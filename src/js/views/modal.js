@@ -11,6 +11,12 @@ export default class Modal {
       description: '',
       cardName: null
     };
+
+    this._handleDocumentFocus = this._handleDocumentFocus.bind(this);
+    this._handleDocumentKeyUp = this._handleDocumentKeyUp.bind(this);
+    this._handleInputCardNumber = this._handleInputCardNumber.bind(this);
+    this._handleInputCardDescription = this._handleInputCardDescription.bind(this);
+    this._removeAddCardModal = this._removeAddCardModal.bind(this);
   }
 
   /**
@@ -75,31 +81,48 @@ export default class Modal {
         </section>
       `);
 
+      this._eventDocumentFocus();
+      this._eventDocumentKeyUp();
       this._eventClickModalClose();
       this._eventInputCardNumber();
       this._eventInputCardDescription();
+
       handler();
     });
+  }
+
+  /**
+   * Key click event on the document
+   */
+  _eventDocumentKeyUp() {
+    $on(qs('body'), 'keyup', this._handleDocumentKeyUp);
+  }
+
+  /**
+   * Focus event on the document
+   */
+  _eventDocumentFocus() {
+    $on(qs('body'), 'focus', this._handleDocumentFocus, true);
   }
 
   /**
    * Event input card number
    */
   _eventInputCardNumber() {
-    $on(qs('#card-number'), 'input', this._handleInputCardNumber.bind(this));
+    $on(qs('#card-number'), 'input', this._handleInputCardNumber);
   }
 
   /**
    * Event input card description
    */
   _eventInputCardDescription() {
-    $on(qs('#card-description'), 'input', this._handleInputCardDescription.bind(this));
+    $on(qs('#card-description'), 'input', this._handleInputCardDescription);
   }
 
   /**
    * Handler input card number
    *
-   * @param {InputEvent} event Value from card number input tag
+   * @param {InputEvent} event
    */
   _handleInputCardNumber(event) {
     const value = event.target.value;
@@ -114,7 +137,7 @@ export default class Modal {
   /**
    * Handler input card description
    *
-   * @param {InputEvent} event Value from card description input tag
+   * @param {InputEvent} event
    */
   _handleInputCardDescription(event) {
     const value = event.target.value;
@@ -132,9 +155,36 @@ export default class Modal {
   }
 
   /**
+   * Handler click event on the document
+   *
+   * @param {KeyboardEvent} event
+   */
+  _handleDocumentKeyUp(event) {
+    if ('key' in event) {
+      if (event.key === 'Escape') {
+        this._removeAddCardModal();
+      }
+    }
+  }
+
+  /**
+   * Handler click event on the document
+   *
+   * @param {FocusEvent} event
+   */
+  _handleDocumentFocus(event) {
+    if (!qs('.modal').contains(event.target)) {
+      event.stopPropagation();
+      qs('.modal__close').focus();
+    }
+  }
+
+  /**
    * Remove add card modal
    */
   _removeAddCardModal() {
+    $off(qs('body'), 'focus', this._handleDocumentFocus, true);
+    $off(qs('body'), 'keyup', this._handleDocumentKeyUp);
     $off(qs('#card-number'), 'input', this._handleInputCardNumber);
     $off(qs('#card-description'), 'input', this._handleInputCardDescription);
     $off(qs('.modal__close'), 'click', this._removeAddCardModal);
@@ -148,8 +198,6 @@ export default class Modal {
    */
   _getNameCard(cardNumber) {
     const name = getCreditCardNameByNumber(cardNumber);
-
-    console.log(name);
 
     return name === cardName.masterCard || name === cardName.visa ? name : null;
   }
