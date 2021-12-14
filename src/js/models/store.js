@@ -1,5 +1,12 @@
 export default class Store {
   /**
+   * @typedef {Object} CardObject An object containing all the necessary information about the card
+   * @property {string} cardNumber Card number
+   * @property {string} description Description from user
+   * @property {cardName} cardName Name payment system card
+   */
+
+  /**
    * @param {!string} key Database name
    */
   constructor(key) {
@@ -9,7 +16,7 @@ export default class Store {
   /**
    * Save new data to storage
    *
-   * @param {Object[]} data Object data for save
+   * @param {CardObject[]} data Object data for save
    * @param {function()} [callback] Called when records matching query are removed
    */
   saveData(data, callback) {
@@ -33,7 +40,8 @@ export default class Store {
     return data.reduce((prev, item) => (
       [...prev, {
         cardNumber: item.cardNumber,
-        description: item.description
+        description: item.description,
+        cardName: item.cardName
       }]
     ), []);
   }

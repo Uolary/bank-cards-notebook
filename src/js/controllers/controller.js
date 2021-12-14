@@ -13,7 +13,7 @@ export default class Controller {
     this.card = card;
 
     this.modal.clickAddCard(() => {
-      this.modal.bindAddCard(this.addCard.bind(this));
+      this.modal.bindAddCard(this.addCard.bind(this), this.storeData);
     });
     this.card.bindRemoveCard(this.removeCard.bind(this));
   }
@@ -32,7 +32,7 @@ export default class Controller {
   /**
    * Remove card from card list
    *
-   * @param {string} id Id the card from data attribute
+   * @param {CardObject.cardNumber} id Id the card from data attribute
    */
   removeCard(id) {
     this.storeData = this.storeData.filter((card) => card.cardNumber !== id);
@@ -50,14 +50,15 @@ export default class Controller {
   /**
    * Add card to storage and card list
    *
-   * @param {Object} values Object with card number and description
+   * @param {CardObject} values Object with a card info
    */
   addCard(values) {
     this.storeData = [
       ...this.storeData,
       {
         cardNumber: values.cardNumber,
-        description: values.description
+        description: values.description,
+        cardName: values.cardName
       }
     ];
 

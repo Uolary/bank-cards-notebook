@@ -1,11 +1,15 @@
 import {$off, $on, qs} from "../helpers/helpers";
-import {parseInt} from "lodash/string";
+import {
+  getCreditCardNameByNumber
+} from 'creditcard.js';
+import {cardName, errorsCardNumber} from "../constants";
 
 export default class Modal {
   constructor() {
     this.values = {
       cardNumber: '',
-      description: ''
+      description: '',
+      cardName: null
     };
   }
 
@@ -13,12 +17,31 @@ export default class Modal {
    * Add card from modal
    *
    * @param {Function} handler Handler function called on synthetic event
+   * @param {CardObject[]} store Data from the store containing maps
    */
-  bindAddCard(handler) {
+  bindAddCard(handler, store) {
     $on(qs('.modal__add-card'), 'click', (event) => {
       event.preventDefault();
+      const cardName= this._getNameCard(this.values.cardNumber);
+
+      if (store.find((card) => this.values.cardNumber === card.cardNumber)) {
+        this._showError(errorsCardNumber.already);
+        return;
+      }
+
+      if (this.values.cardNumber.length !== 16) {
+        this._showError(errorsCardNumber.incomplete);
+        return;
+      }
+
+      if (!cardName) {
+        this._showError(errorsCardNumber.invalidCard);
+        return;
+      }
 
       this._removeAddCardModal();
+
+      this.values.cardName = cardName;
 
       handler(this.values);
     });
@@ -81,7 +104,9 @@ export default class Modal {
   _handleInputCardNumber(event) {
     const value = event.target.value;
 
-    this.values.cardNumber = `${parseInt(value)}` || '';
+    if (value.length <= 16) {
+      this.values.cardNumber = value.replace(/[^0-9]/g, '');
+    }
 
     qs('#card-number').value = this.values.cardNumber;
   }
@@ -114,5 +139,65 @@ export default class Modal {
     $off(qs('#card-description'), 'input', this._handleInputCardDescription);
     $off(qs('.modal__close'), 'click', this._removeAddCardModal);
     qs('.app .modal').remove();
+  }
+
+  /**
+   * Get name card (Visa or MasterCard)
+   *
+   * @param {CardObject.cardNumber} cardNumber Value from card description input tag
+   */
+  _getNameCard(cardNumber) {
+    const name = getCreditCardNameByNumber(cardNumber);
+
+    console.log(name);
+
+    return name === cardName.masterCard || name === cardName.visa ? name : null;
+  }
+
+  /**
+   * Show errors in .modal__error class
+   *
+   * @param {errorsCardNumber} error Value from card description input tag
+   */
+  _showError(error) {
+    qs('.modal__error') && qs('.modal__error').remove();
+
+    switch (error) {
+      case errorsCardNumber.already:
+        qs('.modal__add-card').insertAdjacentHTML(
+          'beforebegin',
+          this._getElemError('This card number already exists')
+        );
+        break;
+
+      case errorsCardNumber.invalidCard:
+        qs('.modal__add-card').insertAdjacentHTML(
+          'beforebegin',
+          this._getElemError('Invalid card number. Supported formats Visa and Mastercard.')
+        );
+        break;
+
+      case errorsCardNumber.incomplete:
+        qs('.modal__add-card').insertAdjacentHTML(
+          'beforebegin',
+          this._getElemError('Incomplete card number')
+        );
+        break;
+
+      default:
+        qs('.modal__add-card').insertAdjacentHTML(
+          'beforebegin',
+          this._getElemError('Unknown error')
+        );
+    }
+  }
+
+  /**
+   * Get the element displaying the error text
+   *
+   * @param {string} error Error text
+   */
+  _getElemError(error) {
+    return `<div class="modal__error">${error}</div>`;
   }
 }
