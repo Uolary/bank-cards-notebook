@@ -58,7 +58,7 @@ export default class Modal {
    */
   clickAddCard(handler) {
     /* eslint-disable max-len */
-    $on(qs(`.${classes.card.card__addBtn}`), 'click', () => {
+    $on(qs(`.${classes.modal.modalShowModalBtn}`), 'click', () => {
       qs('.app').insertAdjacentHTML('beforeend', `
         <section class="${classes.modal.modal}" aria-modal="true" role="dialog">
           <div class="${classes.modal.modal__bg}"></div>
@@ -67,9 +67,11 @@ export default class Modal {
             <h2 class="${classes.modal.modal__title}">Adding a new card</h2>
             <form class="${classes.modal.modal__form}">
               <div class="${classes.modal.modal__row}">
+                  <label class="${classes.modal.modal__label}" for="${identifiers.cardNumber}">Card number</label>
                   <input class="${classes.modal.modal__input}" id="${identifiers.cardNumber}" type="text" placeholder="XXXX XXXX XXXX XXXX">
               </div>
               <div class="${classes.modal.modal__row}">
+                  <label class="${classes.modal.modal__label}" for="${identifiers.cardDescription}">Description</label>
                   <textarea class="${classes.modal.modal__input}" id="${identifiers.cardDescription}" placeholder="Desctiption" rows="10"></textarea>
               </div>
               <button class="${classes.modal.modal__addCard}" aria-label="Close">

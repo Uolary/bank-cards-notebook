@@ -23,11 +23,11 @@ export const classes = Object.freeze({
     card__description: 'card__description',
     card__lessShowDescription: 'card__less-show-description',
     card__numberPart: 'card__number-part',
-    card__typeSvg: 'card__type-svg',
-    card__addBtn: 'card__add-btn'
+    card__typeSvg: 'card__type-svg'
   },
   modal: {
     modal: 'modal',
+    modalShowModalBtn: 'modal__show-btn',
     modal__addCard: 'modal__add-card',
     modal__bg: 'modal__bg',
     modal__inner: 'modal__inner',
@@ -36,6 +36,7 @@ export const classes = Object.freeze({
     modal__form: 'modal__form',
     modal__row: 'modal__row',
     modal__input: 'modal__input',
+    modal__label: 'modal__label',
     modal__error: 'modal__error'
   }
 });

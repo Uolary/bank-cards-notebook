@@ -19,9 +19,9 @@ export default class Card {
       <li class="${classes.card.card__item}">
         <div class="${classes.card.card__header}">
           ${this._getCardIcon(card.cardName)}
-          <h3 class="${classes.card.card__number}">
+          <h2 class="${classes.card.card__number}">
             ${this._getSpacedCardNumber(card.cardNumber)}
-          </h3>
+          </h2>
           <button class="${classes.card.card__removeBtn}" data-id="${card.cardNumber}" aria-label="Remove a credit card">
             <svg class="${classes.card.card__removeSvg}" width="512px" height="512px" viewBox="0 0 512 512">
               <g>
@@ -83,8 +83,8 @@ export default class Card {
    */
   _getDescriptionHtml(description) {
     const averageCharacterLength = 7;
-    const lessShowDescriptionOffsetWidth = 70;
-    const cardListOffsetWidth = qs(`.${classes.cardList.card__list}`).offsetWidth - 68 - lessShowDescriptionOffsetWidth;
+    const lessShowDescriptionOffsetWidth = 210;
+    const cardListOffsetWidth = qs(`.${classes.cardList.card__list}`).offsetWidth - lessShowDescriptionOffsetWidth;
 
     if (description.length > cardListOffsetWidth && !this._isShowDescription) {
       return `
