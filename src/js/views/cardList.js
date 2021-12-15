@@ -1,4 +1,5 @@
-import {qs} from "../helpers/helpers";
+import {qs} from '../helpers/helpers';
+import {classes} from '../constants';
 
 export default class CardList {
   /**
@@ -6,7 +7,7 @@ export default class CardList {
    */
   constructor(card) {
     this.card = card;
-    this.$cardList = qs('.card__list');
+    this.$cardList = qs(`.${classes.cardList.card__list}`);
   }
 
   /**
@@ -25,7 +26,7 @@ export default class CardList {
    */
   renderEmptyList() {
     this.$cardList.innerHTML = `
-      <li class="card__item">
+      <li class="${classes.card.card__item}">
         Your card list is empty.
       </li>
     `;
