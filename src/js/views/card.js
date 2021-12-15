@@ -2,6 +2,12 @@ import {$on, qs} from "../helpers/helpers";
 import {cardName} from "../constants";
 
 export default class Card {
+  constructor() {
+    this._isShowDescription = false;
+
+    this._eventLessShowDescription();
+  }
+
   /**
    * Get html card
    *
@@ -23,8 +29,8 @@ export default class Card {
             </svg>
           </button>
         </div>
-        <p class="card__description">
-          ${card.description}
+        <p class="card__description" data-full-description="${card.description}">
+          ${this._getDescriptionHtml(card.description)}
         </p>
       </li>
     `;
@@ -62,5 +68,59 @@ export default class Card {
     }
 
     return '';
+  }
+
+  /**
+   * Get html for card__description class
+   *
+   * @param {string} description Card description
+   */
+  _getDescriptionHtml(description) {
+    const averageCharacterLength = 7;
+    const lessShowDescriptionOffsetWidth = 70;
+    const cardListOffsetWidth = qs('.card__list').offsetWidth - 68 - lessShowDescriptionOffsetWidth;
+
+    if (description.length > cardListOffsetWidth && !this._isShowDescription) {
+      return `
+        ${description.slice(0, (cardListOffsetWidth / averageCharacterLength).toFixed(0) || description.length)}
+        ...
+        ${this._lessShowDescriptionBtn()}
+      `;
+    }
+
+    if (this._isShowDescription) {
+      return `${description} ${this._lessShowDescriptionBtn()}`
+    }
+
+    return description;
+  }
+
+  /**
+   * Button for less show description card
+   */
+  _lessShowDescriptionBtn() {
+    return `
+      <button
+        class="card__less-show-description"
+        aria-label="${this._isShowDescription ? 'Less': 'Show'} full description"
+      >
+        ${this._isShowDescription ? 'Less full': 'Show full'}
+      </button>
+    `;
+  }
+
+  /**
+   * Click at card__list class
+   */
+  _eventLessShowDescription() {
+    $on(qs('.card__list'), 'click', (event) => {
+      const lessShowBtn = event.target.closest('.card__less-show-description');
+      const cardDescriptionElem = event.target.closest('.card__description');
+
+      if (lessShowBtn) {
+        this._isShowDescription = !this._isShowDescription;
+        cardDescriptionElem.innerHTML = this._getDescriptionHtml(cardDescriptionElem.dataset.fullDescription);
+      }
+    });
   }
 }
