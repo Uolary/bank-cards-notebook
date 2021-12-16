@@ -196,6 +196,11 @@
     transition: 0.3s;
     cursor: pointer;
     outline: 0;
+
+    &:hover,
+    &:focus {
+      opacity: 0.6;
+    }
   }
 
   &__remove-card-btn {

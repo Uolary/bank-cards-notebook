@@ -37,7 +37,13 @@ const cssLoaders = (extra) => {
   const loaders = [
     {
       loader: MiniCssExtractPlugin.loader
-    }, 'css-loader'
+    },
+    {
+      loader: 'css-loader'
+    },
+    {
+      loader: "postcss-loader"
+    }
   ];
 
   if (extra) {
