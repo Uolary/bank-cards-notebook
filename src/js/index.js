@@ -4,13 +4,15 @@ import Store from './models/store';
 import CardList from './views/cardList';
 import Card from './views/card';
 import Controller from './controllers/controller';
-import Modal from './views/modal';
+import ConfirmModal from "./views/confirmModal";
+import AddCardModal from "./views/addCardModal";
 
 const store = new Store('cards-list');
-const modal = new Modal();
 const card = new Card();
 const cardList = new CardList(card);
-const controller = new Controller(store, modal, cardList, card);
+const modal = new AddCardModal();
+const confirmModal = new ConfirmModal(card);
+const controller = new Controller(store, modal, confirmModal, cardList, card);
 
 const app = () => {
   controller.initApp();

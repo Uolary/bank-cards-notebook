@@ -11,6 +11,7 @@ export const cardName = Object.freeze({
 });
 
 export const classes = Object.freeze({
+  overflowHidden: 'overflow-hidden',
   app: 'app',
   cardList: {
     card__list: 'card__list'
@@ -32,6 +33,8 @@ export const classes = Object.freeze({
     modalShowModalBtn: 'modal__show-btn',
     modal__addCard: 'modal__add-card',
     modal__bg: 'modal__bg',
+    modal__bgHigh: 'modal__bg--high',
+    modal__bgLow: 'modal__bg--low',
     modal__inner: 'modal__inner',
     modal__closeBtn: 'modal__close-btn',
     modal__title: 'modal__title',
@@ -39,7 +42,9 @@ export const classes = Object.freeze({
     modal__row: 'modal__row',
     modal__input: 'modal__input',
     modal__label: 'modal__label',
-    modal__error: 'modal__error'
+    modal__error: 'modal__error',
+    modal__removeCardBtn: 'modal__remove-card-btn',
+    modal__cancelBtn: 'modal__cancel-btn'
   }
 });
 

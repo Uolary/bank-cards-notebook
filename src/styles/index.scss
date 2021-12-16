@@ -10,6 +10,10 @@ body {
   background-color: $titan-white;
   font-family: Arial, Helvetica, 'sans-serif';
   box-sizing: border-box;
+
+  &.overflow-hidden {
+    overflow: hidden;
+  }
 }
 
 .container {

@@ -1,21 +1,23 @@
 export default class Controller {
   /**
    * @param  {!Store} store A Store instance
-   * @param  {!Modal} modal A modal instance
+   * @param  {!AddCardModal} modal A modal instance
+   * @param  {!ConfirmModal} confirmModal A confirm modal instance
    * @param  {!CardList} cardList A cardList instance
    * @param  {!Card} card A card instance
    */
-  constructor(store, modal, cardList, card) {
+  constructor(store, modal, confirmModal, cardList, card) {
     this.store = store;
     this.storeData = this.store.loadData() || [];
     this.modal = modal;
+    this.confirmModal = confirmModal;
     this.cardList = cardList;
     this.card = card;
 
     this.modal.clickAddCard(() => {
       this.modal.bindAddCard(this.addCard.bind(this), this.storeData);
     });
-    this.card.bindRemoveCard(this.removeCard.bind(this));
+    this.confirmModal.bindModalConfirmRemoveCard(this.removeCard.bind(this));
   }
 
   /**
