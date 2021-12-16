@@ -1,5 +1,4 @@
 import '../styles/index.scss';
-import '../assets/fonts/Roboto-Regular.ttf';
 import {$on} from './helpers/helpers';
 import Store from './models/store';
 import CardList from './views/cardList';

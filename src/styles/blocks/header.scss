@@ -1,6 +1,7 @@
 @import '../variables';
 
 .header {
+  box-sizing: border-box;
   font-size: 34px;
   font-weight: 400;
   color: $dove-gray;
@@ -13,4 +14,8 @@
   width: 100%;
   background-color: $titan-white;
   z-index: 2;
+
+  @media (max-width: $screen-sm) {
+    padding: 20px 30px;
+  }
 }

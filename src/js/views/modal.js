@@ -1,6 +1,6 @@
 import {$off, $on, qs} from '../helpers/helpers';
 import {getCreditCardNameByNumber} from 'creditcard.js';
-import {cardName, classes, errorsCardNumber, identifiers} from '../constants';
+import {cardName, classes, errorsCard, identifiers} from '../constants';
 
 export default class Modal {
   constructor() {
@@ -29,17 +29,27 @@ export default class Modal {
       const cardName= this._getNameCard(this.values.cardNumber);
 
       if (store.find((card) => this.values.cardNumber === card.cardNumber)) {
-        this._showError(errorsCardNumber.already);
+        this._showError(errorsCard.alreadyCard);
+        this._setAriaInvalid(qs(`#${identifiers.cardNumber}`), true);
         return;
       }
 
       if (this.values.cardNumber.length !== 16) {
-        this._showError(errorsCardNumber.incomplete);
+        this._showError(errorsCard.incompleteCard);
+        this._setAriaInvalid(qs(`#${identifiers.cardNumber}`), true);
         return;
       }
 
       if (!cardName) {
-        this._showError(errorsCardNumber.invalidCard);
+        this._showError(errorsCard.invalidCard);
+        this._setAriaInvalid(qs(`#${identifiers.cardNumber}`), true);
+        return;
+      }
+
+      if (!this.values.description) {
+        this._showError(errorsCard.emptyDescription);
+        this._setAriaInvalid(qs(`#${identifiers.cardNumber}`), false);
+        this._setAriaInvalid(qs(`#${identifiers.cardDescription}`), true);
         return;
       }
 
@@ -67,15 +77,29 @@ export default class Modal {
             <h2 class="${classes.modal.modal__title}">Adding a new card</h2>
             <form class="${classes.modal.modal__form}">
               <div class="${classes.modal.modal__row}">
-                  <label class="${classes.modal.modal__label}" for="${identifiers.cardNumber}">Card number</label>
-                  <input class="${classes.modal.modal__input}" id="${identifiers.cardNumber}" type="text" placeholder="XXXX XXXX XXXX XXXX">
+                <label class="${classes.modal.modal__label}" for="${identifiers.cardNumber}">Card number</label>
+                <input
+                  name="${identifiers.cardNumber}"
+                  class="${classes.modal.modal__input}"
+                  id="${identifiers.cardNumber}"
+                  type="text"
+                  placeholder="XXXX XXXX XXXX XXXX"
+                  aria-required="true"
+                >
               </div>
               <div class="${classes.modal.modal__row}">
-                  <label class="${classes.modal.modal__label}" for="${identifiers.cardDescription}">Description</label>
-                  <textarea class="${classes.modal.modal__input}" id="${identifiers.cardDescription}" placeholder="Desctiption" rows="10"></textarea>
+                <label class="${classes.modal.modal__label}" for="${identifiers.cardDescription}">Description</label>
+                <textarea
+                  name="${identifiers.cardDescription}"
+                  class="${classes.modal.modal__input}"
+                  id="${identifiers.cardDescription}"
+                  placeholder="Desctiption"
+                  rows="10"
+                  aria-required="true"
+                ></textarea>
               </div>
               <button class="${classes.modal.modal__addCard}" aria-label="Close">
-                  Add
+                Add
               </button>
             </form>
           </div>
@@ -207,30 +231,37 @@ export default class Modal {
   /**
    * Show errors in .modal__error class
    *
-   * @param {errorsCardNumber} error Value from card description input tag
+   * @param {errorsCard} error Value from card description input tag
    */
   _showError(error) {
     qs(`.${classes.modal.modal__error}`) && qs(`.${classes.modal.modal__error}`).remove();
 
     switch (error) {
-      case errorsCardNumber.already:
+      case errorsCard.alreadyCard:
         qs(`.${classes.modal.modal__addCard}`).insertAdjacentHTML(
           'beforebegin',
           this._getElemError('This card number already exists')
         );
         break;
 
-      case errorsCardNumber.invalidCard:
+      case errorsCard.invalidCard:
         qs(`.${classes.modal.modal__addCard}`).insertAdjacentHTML(
           'beforebegin',
-          this._getElemError('Invalid card number. Supported formats Visa and Mastercard.')
+          this._getElemError('Invalid card number. Supported formats Visa and Mastercard')
         );
         break;
 
-      case errorsCardNumber.incomplete:
+      case errorsCard.incompleteCard:
         qs(`.${classes.modal.modal__addCard}`).insertAdjacentHTML(
           'beforebegin',
           this._getElemError('Incomplete card number')
+        );
+        break;
+
+      case errorsCard.emptyDescription:
+        qs(`.${classes.modal.modal__addCard}`).insertAdjacentHTML(
+          'beforebegin',
+          this._getElemError('The description for the map is empty')
         );
         break;
 
@@ -248,6 +279,22 @@ export default class Modal {
    * @param {string} error Error text
    */
   _getElemError(error) {
-    return `<div class="${classes.modal.modal__error}">${error}</div>`;
+    return `<div class="${classes.modal.modal__error}" id="error-message">${error}</div>`;
+  }
+
+  /**
+   * Get the element displaying the error text
+   *
+   * @param {Element} elem Error text
+   * @param {boolean} isValid Error text
+   */
+  _setAriaInvalid(elem, isValid) {
+    if (isValid) {
+      elem.setAttribute('aria-invalid', `${isValid}`);
+      elem.setAttribute('aria-describedby', 'error-message');
+    } else {
+      elem.removeAttribute('aria-invalid');
+      elem.removeAttribute('aria-describedby');
+    }
   }
 }

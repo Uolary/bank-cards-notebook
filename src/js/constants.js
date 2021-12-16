@@ -1,7 +1,8 @@
-export const errorsCardNumber = Object.freeze({
-  already: 'already',
+export const errorsCard = Object.freeze({
+  alreadyCard: 'alreadyCard',
   invalidCard: 'invalidCard',
-  incomplete: 'Incomplete'
+  incompleteCard: 'incompleteCard',
+  emptyDescription: 'emptyDescription'
 });
 
 export const cardName = Object.freeze({
@@ -23,7 +24,8 @@ export const classes = Object.freeze({
     card__description: 'card__description',
     card__lessShowDescription: 'card__less-show-description',
     card__numberPart: 'card__number-part',
-    card__typeSvg: 'card__type-svg'
+    card__typeSvg: 'card__type-svg',
+    card__empty: 'card__empty'
   },
   modal: {
     modal: 'modal',

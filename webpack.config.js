@@ -23,7 +23,7 @@ const optimization = () => {
     config.minimizer = [
       new OptimizeCssAssetsWebpackPlugin(),
       new TerserWebpackPlugin()
-    ]
+    ];
   }
 
   return config;
@@ -100,7 +100,7 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
-    main: ['@babel/polyfill', './index.js'],
+    main: ['@babel/polyfill', './js/index.js'],
   },
   output: {
     filename: filename('js'),

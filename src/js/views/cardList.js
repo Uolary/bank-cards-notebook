@@ -16,7 +16,7 @@ export default class CardList {
    * @param {Object} cardList Object card containing cardNumber and description
    */
   renderCardList(cardList) {
-    this.$cardList.innerHTML = cardList.reduce((html, card) => (
+    this.$cardList.innerHTML = cardList.reduceRight((html, card) => (
       html + this.card.cardHtml(card)
     ), '');
   }
@@ -27,7 +27,7 @@ export default class CardList {
   renderEmptyList() {
     this.$cardList.innerHTML = `
       <li class="${classes.card.card__item}">
-        Your card list is empty.
+        <p class="${classes.card.card__empty}">Your card list is empty.</p>
       </li>
     `;
   }

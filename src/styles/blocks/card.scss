@@ -2,7 +2,11 @@
 
 .card {
   margin-bottom: 20px;
-  padding: 80px 0;
+  padding: 90px 0;
+
+  @media (max-width: $screen-sm) {
+    padding: 120px 0 90px;
+  }
 
   &__list {
     padding: 0;
@@ -51,12 +55,19 @@
 
     @media (max-width: $screen-sm) {
       position: absolute;
-      top: 54px;
+      top: 60px;
+      letter-spacing: 2px;
+      font-size: 19px;
+      width: 100%;
     }
   }
 
   &__number-part {
     margin-right: 12px;
+
+    @media (max-width: $screen-sm) {
+      margin-right: 5%;
+    }
   }
 
   &__remove-btn {
@@ -91,5 +102,12 @@
     border: none;
     color: $portage;
     cursor: pointer;
+  }
+
+  &__empty {
+    font-size: 22px;
+    color: $dove-gray;
+    opacity: 0.9;
+    margin: 5px 0 0;
   }
 }

@@ -17,7 +17,7 @@ export default class Card {
     /* eslint-disable max-len */
     return `
       <li class="${classes.card.card__item}">
-        <div class="${classes.card.card__header}">
+        <header class="${classes.card.card__header}">
           ${this._getCardIcon(card.cardName)}
           <h2 class="${classes.card.card__number}">
             ${this._getSpacedCardNumber(card.cardNumber)}
@@ -29,7 +29,7 @@ export default class Card {
               </g>
             </svg>
           </button>
-        </div>
+        </header>
         <p class="${classes.card.card__description}" data-full-description="${card.description}">
           ${this._getDescriptionHtml(card.description)}
         </p>
