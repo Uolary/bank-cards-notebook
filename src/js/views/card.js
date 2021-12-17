@@ -3,8 +3,6 @@ import {cardName, classes} from '../constants';
 
 export default class Card {
   constructor() {
-    this._isShowDescription = false;
-
     this._eventLessShowDescription();
   }
 
@@ -16,13 +14,13 @@ export default class Card {
   cardHtml(card) {
     /* eslint-disable max-len */
     return `
-      <li class="${classes.card.card__item}">
+      <li class="${classes.card.card__item}" data-card-id="${card.cardNumber}">
         <header class="${classes.card.card__header}">
           ${this._getCardIcon(card.cardName)}
           <h2 class="${classes.card.card__number}">
             ${this._getSpacedCardNumber(card.cardNumber)}
           </h2>
-          <button class="${classes.card.card__removeBtn}" data-id="${card.cardNumber}" aria-label="Remove a credit card">
+          <button class="${classes.card.card__removeBtn}" aria-label="Remove a credit card">
             <svg class="${classes.card.card__removeSvg}" width="512px" height="512px" viewBox="0 0 512 512">
               <g>
                 <path d="M413.7,133.4c-2.4-9-4-14-4-14c-2.6-9.3-9.2-9.3-19-10.9l-53.1-6.7c-6.6-1.1-6.6-1.1-9.2-6.8c-8.7-19.6-11.4-31-20.9-31   h-103c-9.5,0-12.1,11.4-20.8,31.1c-2.6,5.6-2.6,5.6-9.2,6.8l-53.2,6.7c-9.7,1.6-16.7,2.5-19.3,11.8c0,0-1.2,4.1-3.7,13   c-3.2,11.9-4.5,10.6,6.5,10.6h302.4C418.2,144.1,417,145.3,413.7,133.4z"/><path d="M379.4,176H132.6c-16.6,0-17.4,2.2-16.4,14.7l18.7,242.6c1.6,12.3,2.8,14.8,17.5,14.8h207.2c14.7,0,15.9-2.5,17.5-14.8   l18.7-242.6C396.8,178.1,396,176,379.4,176z"/>
@@ -30,8 +28,8 @@ export default class Card {
             </svg>
           </button>
         </header>
-        <p class="${classes.card.card__description}" data-full-description="${card.description}">
-          ${this._getDescriptionHtml(card.description)}
+        <p class="${classes.card.card__description}">
+          ${card.description}
         </p>
       </li>
     `;
@@ -46,9 +44,24 @@ export default class Card {
   bindRemoveCard(handler) {
     $on(qs(`.${classes.cardList.card__list}`), 'click', (event) => {
       if (event.target.closest(`.${classes.card.card__removeBtn}`)) {
-        handler(event.target.closest(`.${classes.card.card__removeBtn}`).dataset.id);
+        handler(event.target.closest(`.${classes.card.card__item}`).dataset.cardId);
       }
     });
+  }
+
+  /**
+   * Checking if the description text is outside the wrapper boundaries
+   *
+   * @param {CardObject.cardNumber} id Card number
+   */
+  checkDescriptionLength(id) {
+    const cardOffsetWidth = qs(`[data-card-id="${id}"]`).clientWidth - 60;
+    const description = qs(`[data-card-id="${id}"] .${classes.card.card__description}`);
+
+    if (description.offsetWidth >= cardOffsetWidth - 20) {
+      description.insertAdjacentHTML('beforeend', this._lessShowDescriptionBtn(id));
+      description.classList.add(classes.card.card__descriptionLess);
+    }
   }
 
   /**
@@ -77,42 +90,32 @@ export default class Card {
   }
 
   /**
-   * Get html for card__description class
+   * Button for less show description card
    *
-   * @param {string} description Card description
+   * @param {CardObject.cardNumber} id Card number
    */
-  _getDescriptionHtml(description) {
-    const averageCharacterLength = 7;
-    const lessShowDescriptionOffsetWidth = 210;
-    const cardListOffsetWidth = qs(`.${classes.cardList.card__list}`).offsetWidth - lessShowDescriptionOffsetWidth;
-
-    if (description.length > cardListOffsetWidth && !this._isShowDescription) {
-      return `
-        ${description.slice(0, (cardListOffsetWidth / averageCharacterLength).toFixed(0) || description.length)}
-        ...
-        ${this._lessShowDescriptionBtn()}
-      `;
-    }
-
-    if (this._isShowDescription) {
-      return `${description} ${this._lessShowDescriptionBtn()}`;
-    }
-
-    return description;
+  _lessShowDescriptionBtn(id) {
+    return `
+      <button
+        class="${classes.card.card__lessShowDescription} ${classes.card.card__lessShowDescriptionAbsolute}"
+        aria-label="${this._checkIsLessDescription(id) ? 'Less': 'Show'} full description"
+      >
+        ${this._lessShowBtnText(this._checkIsLessDescription(id))}
+      </button>
+    `;
   }
 
   /**
-   * Button for less show description card
+   * Text for less and show full description button
+   *
+   * @param {boolean} status Card number
    */
-  _lessShowDescriptionBtn() {
-    return `
-      <button
-        class="${classes.card.card__lessShowDescription}"
-        aria-label="${this._isShowDescription ? 'Less': 'Show'} full description"
-      >
-        ${this._isShowDescription ? 'Less full': 'Show full'}
-      </button>
-    `;
+  _lessShowBtnText(status) {
+    if (status) {
+      return 'Less full';
+    }
+
+    return `<span class="${classes.card.card__ellipsis}">...</span> Show full`;
   }
 
   /**
@@ -120,14 +123,32 @@ export default class Card {
    */
   _eventLessShowDescription() {
     $on(qs(`.${classes.cardList.card__list}`), 'click', (event) => {
-      const lessShowBtn = event.target.closest(`.${classes.card.card__lessShowDescription}`);
-      const cardDescriptionElem = event.target.closest(`.${classes.card.card__description}`);
+      if (event.target.closest(`.${classes.card.card__description}`)) {
+        const lessShowBtn = event.target.closest(`.${classes.card.card__lessShowDescription}`);
+        const cardDescriptionElem = event.target.closest(`.${classes.card.card__description}`);
+        const isLess = cardDescriptionElem.classList.contains(classes.card.card__descriptionLess);
 
-      if (lessShowBtn) {
-        this._isShowDescription = !this._isShowDescription;
-        cardDescriptionElem.innerHTML = this._getDescriptionHtml(cardDescriptionElem.dataset.fullDescription);
+        lessShowBtn.innerHTML = this._lessShowBtnText(isLess);
+
+        if (lessShowBtn && isLess) {
+          cardDescriptionElem.classList.remove(classes.card.card__descriptionLess);
+          lessShowBtn.classList.remove(classes.card.card__lessShowDescriptionAbsolute);
+        } else if (lessShowBtn) {
+          cardDescriptionElem.classList.add(classes.card.card__descriptionLess);
+          lessShowBtn.classList.add(classes.card.card__lessShowDescriptionAbsolute);
+        }
       }
     });
+  }
+
+  /**
+   * Checking if the description is less
+   *
+   * @param {CardObject.cardNumber} id Card number
+   */
+  _checkIsLessDescription(id) {
+    return qs(`[data-card-id="${id}"] .${classes.card.card__description}`)
+      .classList.contains(classes.card.card__descriptionLess);
   }
 
   /**

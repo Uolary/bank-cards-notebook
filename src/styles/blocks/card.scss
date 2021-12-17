@@ -91,19 +91,39 @@
     transition: 0.3s;
   }
 
+  &__ellipsis {
+    color: $tundora;
+  }
+
   &__description {
     font-size: 18px;
     line-height: 1.6;
     margin: 0;
     color: $tundora;
+    position: relative;
+    display: inline;
+
+    &--less {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: inherit;
+    }
   }
 
   &__less-show-description {
     font-size: 18px;
-    background: inherit;
+    background: $white;
     border: none;
     color: $portage;
     cursor: pointer;
+    padding: 0;
+
+    &--absolute {
+      position: absolute;
+      right: 0;
+      top: 4px;
+    }
   }
 
   &__empty {

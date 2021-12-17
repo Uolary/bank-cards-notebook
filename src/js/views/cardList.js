@@ -7,25 +7,27 @@ export default class CardList {
    */
   constructor(card) {
     this.card = card;
-    this.$cardList = qs(`.${classes.cardList.card__list}`);
   }
 
   /**
    * Render card list to index.html
    *
-   * @param {Object} cardList Object card containing cardNumber and description
+   * @param {CardObject[]} cardList Object card containing cardNumber and description
    */
   renderCardList(cardList) {
-    this.$cardList.innerHTML = cardList.reduceRight((html, card) => (
-      html + this.card.cardHtml(card)
-    ), '');
+    qs(`.${classes.cardList.card__list}`).innerHTML = '';
+
+    cardList.reverse().forEach((card) => {
+      qs(`.${classes.cardList.card__list}`).innerHTML += this.card.cardHtml(card);
+      this.card.checkDescriptionLength(card.cardNumber);
+    });
   }
 
   /**
    * Render info for empty card list
    */
   renderEmptyList() {
-    this.$cardList.innerHTML = `
+    qs(`.${classes.cardList.card__list}`).innerHTML = `
       <li class="${classes.card.card__item}">
         <p class="${classes.card.card__empty}">Your card list is empty.</p>
       </li>

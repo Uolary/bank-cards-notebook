@@ -23,7 +23,10 @@ export const classes = Object.freeze({
     card__removeBtn: 'card__remove-btn',
     card__removeSvg: 'card__remove-svg',
     card__description: 'card__description',
+    card__descriptionLess: 'card__description--less',
     card__lessShowDescription: 'card__less-show-description',
+    card__lessShowDescriptionAbsolute: 'card__less-show-description--absolute',
+    card__ellipsis: 'card__ellipsis',
     card__numberPart: 'card__number-part',
     card__typeSvg: 'card__type-svg',
     card__empty: 'card__empty'
