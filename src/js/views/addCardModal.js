@@ -13,8 +13,14 @@ export default class AddCardModal extends Modal {
       cardName: null
     };
 
-    this._handleInputCardNumber = this._handleInputCardNumber.bind(this);
+    this._ccNumberPattern = /^\d{0,16}$/g;
+    this._ccNumberInputOldValue = null;
+    this._ccNumberInputOldCursor = null;
+
     this._handleInputCardDescription = this._handleInputCardDescription.bind(this);
+
+    this._ccNumberInputInputHandler = this._ccNumberInputInputHandler.bind(this);
+    this._ccNumberInputKeyDownHandler = this._ccNumberInputKeyDownHandler.bind(this);
   }
 
   /**
@@ -121,7 +127,8 @@ export default class AddCardModal extends Modal {
    * Event input card number
    */
   _eventInputCardNumber() {
-    $on(qs(`#${identifiers.cardNumber}`), 'input', this._handleInputCardNumber);
+    $on(qs(`#${identifiers.cardNumber}`), 'input', this._ccNumberInputInputHandler);
+    $on(qs(`#${identifiers.cardNumber}`), 'keydown', this._ccNumberInputKeyDownHandler);
   }
 
   /**
@@ -129,21 +136,6 @@ export default class AddCardModal extends Modal {
    */
   _eventInputCardDescription() {
     $on(qs(`#${identifiers.cardDescription}`), 'input', this._handleInputCardDescription);
-  }
-
-  /**
-   * Handler input card number
-   *
-   * @param {InputEvent} event
-   */
-  _handleInputCardNumber(event) {
-    const value = event.target.value.replace(/\s/g, '');
-
-    if (value.length <= 16) {
-      this.values.cardNumber = value.replace(/[^0-9]/g, '');
-    }
-
-    qs(`#${identifiers.cardNumber}`).value = this.values.cardNumber.replace(/(.{4})/g, '$1 ').trim();
   }
 
   /**
@@ -163,7 +155,8 @@ export default class AddCardModal extends Modal {
    * Remove add card modal
    */
   _removeAddCardModal() {
-    $off(qs(`#${identifiers.cardNumber}`), 'input', this._handleInputCardNumber);
+    $off(qs(`#${identifiers.cardNumber}`), 'input', this._ccNumberInputInputHandler);
+    $off(qs(`#${identifiers.cardNumber}`), 'keydown', this._ccNumberInputKeyDownHandler);
     $off(qs(`#${identifiers.cardDescription}`), 'input', this._handleInputCardDescription);
 
     super.removeModal();
@@ -222,6 +215,109 @@ export default class AddCardModal extends Modal {
           'beforebegin',
           this._getElemError('Unknown error')
         );
+    }
+  }
+
+  /**
+   * Set unmask
+   *
+   * @param {string} value
+   */
+  _unmask(value) {
+    return value.replace(/[^\d]/g, '');
+  }
+
+  /**
+   * Set mask
+   *
+   * @param {string} value
+   * @param {number} limit
+   * @param {string} separator
+   */
+  _mask(value, limit, separator) {
+    const output = [];
+    for (let i = 0; i < value.length; i++) {
+      if ( i !== 0 && i % limit === 0) {
+        output.push(separator);
+      }
+
+      output.push(value[i]);
+    }
+
+    return output.join("");
+  }
+
+  /**
+   * Checking separator
+   *
+   * @param {number} position
+   * @param {number} interval
+   */
+  _checkSeparator(position, interval) {
+    return Math.floor(position / (interval + 1));
+  }
+
+  /**
+   * Handler keydown card number
+   *
+   * @param {KeyboardEvent} event
+   */
+  _ccNumberInputKeyDownHandler(event) {
+    let el = event.target;
+    this._ccNumberInputOldValue = el.value;
+    this._ccNumberInputOldCursor = el.selectionEnd;
+  }
+
+  /**
+   * Handler input card number
+   *
+   * @param {InputEvent} event
+   */
+  _ccNumberInputInputHandler(event) {
+    const el = event.target;
+    let newValue = this.values.cardNumber = this._unmask(el.value);
+    let newCursorPosition;
+
+    if (newValue.match(this._ccNumberPattern)) {
+      newValue = this._mask(newValue, 4, ' ');
+
+      newCursorPosition =
+        this._ccNumberInputOldCursor - this._checkSeparator(this._ccNumberInputOldCursor, 4) +
+        this._checkSeparator(this._ccNumberInputOldCursor + (newValue.length - this._ccNumberInputOldValue.length), 4) +
+        (this._unmask(newValue).length - this._unmask(this._ccNumberInputOldValue).length);
+
+      el.value = (newValue !== "") ? newValue : "";
+    } else {
+      el.value = this._ccNumberInputOldValue;
+      newCursorPosition = this._ccNumberInputOldCursor;
+    }
+
+    el.setSelectionRange(newCursorPosition, newCursorPosition);
+
+    this._highlightCC(el.value);
+  }
+
+  /**
+   * Finding a regular expression in a loop
+   *
+   * @param {string} ccValue
+   */
+  _highlightCC(ccValue) {
+    let ccCardType = '',
+      ccCardTypePatterns = {
+        amex: /^3/,
+        visa: /^4/,
+        mastercard: /^5/,
+        disc: /^6/,
+
+        genric: /(^1|^2|^7|^8|^9|^0)/,
+      };
+
+    for (const cardType in ccCardTypePatterns) {
+      if (ccCardTypePatterns[cardType].test(ccValue)) {
+        ccCardType = cardType;
+        break;
+      }
     }
   }
 

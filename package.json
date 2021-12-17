@@ -1,8 +1,7 @@
 {
   "name": "bank-cards-notebook",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Notebook of bank cards",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
