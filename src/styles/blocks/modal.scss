@@ -80,8 +80,8 @@
 
   &__close-btn {
     position: absolute;
-    top: 30px;
-    right: 20px;
+    top: 24px;
+    right: 18px;
     background: inherit;
     border: none;
     cursor: pointer;
@@ -103,7 +103,7 @@
     &::after,
     &::before {
       content: '';
-      width: 30px;
+      width: 24px;
       height: 4px;
       background: $flamingo;
       display: block;

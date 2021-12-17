@@ -15,3 +15,7 @@
 * `` 'npm run build`` - build production
 * `` 'npm start`` - track files and open them in the browser
 * `` 'npm run stats`` - look at the sizes and stats of the bundle
+
+## Development
+
+To determine the type of card by its number, the [creditcard.js](https://contaazul.github.io/creditcard.js/) library was used.

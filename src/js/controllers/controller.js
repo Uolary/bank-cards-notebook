@@ -40,8 +40,9 @@ export default class Controller {
     this.storeData = this.storeData.filter((card) => card.cardNumber !== id);
 
     if (this.storeData.length === 0) {
-      this.cardList.renderEmptyList();
-      this.store.saveData(this.storeData);
+      this.store.saveData(this.storeData, () => {
+        this.cardList.renderEmptyList();
+      });
     } else {
       this.store.saveData(this.storeData, () => {
         this.cardList.renderCardList(this.storeData);

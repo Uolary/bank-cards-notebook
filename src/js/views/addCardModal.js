@@ -64,6 +64,8 @@ export default class AddCardModal extends Modal {
       this.values.cardName = cardName;
 
       handler(this.values);
+
+      this._clearValues();
     });
   }
 
@@ -275,7 +277,7 @@ export default class AddCardModal extends Modal {
    */
   _ccNumberInputInputHandler(event) {
     const el = event.target;
-    let newValue = this.values.cardNumber = this._unmask(el.value);
+    let newValue = this.values.cardNumber = this._unmask(el.value).slice(0, 16);
     let newCursorPosition;
 
     if (newValue.match(this._ccNumberPattern)) {
@@ -344,5 +346,17 @@ export default class AddCardModal extends Modal {
       elem.removeAttribute('aria-invalid');
       elem.removeAttribute('aria-describedby');
     }
+  }
+
+  /**
+   * Clear this.values data after added card
+   *
+   */
+  _clearValues() {
+    this.values = {
+      cardNumber: '',
+      description: '',
+      cardName: null
+    };
   }
 }
