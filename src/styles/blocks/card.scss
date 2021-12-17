@@ -1,0 +1,135 @@
+@import '../variables';
+
+.card {
+  margin-bottom: 20px;
+  padding: 90px 0;
+
+  @media (max-width: $screen-sm) {
+    padding: 120px 0 90px;
+  }
+
+  &__list {
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    list-style-type: none;
+    padding: 10px 30px 15px;
+    border-radius: 15px;
+    background-color: $white;
+    box-shadow: 0 4px 18px $seashell;
+    margin-bottom: 20px;
+    transition: 0.5s;
+
+    &:hover {
+      box-shadow: 0 4px 18px $alto;
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: $screen-sm) {
+      justify-content: space-between;
+      position: relative;
+      padding-bottom: 35px;
+    }
+  }
+
+  &__type-svg {
+    width: 60px;
+    height: 58px;
+    vertical-align: middle;
+    margin-right: 15px;
+  }
+
+  &__number {
+    font-size: 26px;
+    color: $dove-gray;
+    letter-spacing: 4px;
+    flex-grow: 1;
+    margin: 0;
+    opacity: 0.9;
+
+    @media (max-width: $screen-sm) {
+      position: absolute;
+      top: 60px;
+      letter-spacing: 2px;
+      font-size: 18px;
+      width: 100%;
+    }
+  }
+
+  &__number-part {
+    margin-right: 12px;
+
+    @media (max-width: $screen-sm) {
+      margin-right: 5%;
+    }
+  }
+
+  &__remove-btn {
+    background: inherit;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: 0.3s;
+    outline: 0;
+
+    &:hover,
+    &:focus {
+      opacity: 0.6;
+    }
+  }
+
+  &__remove-svg {
+    fill: $flamingo;
+    width: 35px;
+    height: 35px;
+    transition: 0.3s;
+  }
+
+  &__ellipsis {
+    color: $tundora;
+  }
+
+  &__description {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 0;
+    color: $tundora;
+    position: relative;
+    display: inline;
+
+    &--less {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: inherit;
+    }
+  }
+
+  &__less-show-description {
+    font-size: 18px;
+    background: $white;
+    border: none;
+    color: $portage;
+    cursor: pointer;
+    padding: 0;
+
+    &--absolute {
+      position: absolute;
+      right: 0;
+      top: 4px;
+    }
+  }
+
+  &__empty {
+    font-size: 22px;
+    color: $dove-gray;
+    opacity: 0.9;
+    margin: 5px 0 0;
+  }
+}

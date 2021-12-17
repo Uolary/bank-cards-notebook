@@ -1,0 +1,211 @@
+@import '../variables';
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  text-align: center;
+  overflow-y: scroll;
+
+  &__bg {
+    z-index: -1;
+    background: $tundora;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    opacity: 0.6;
+
+    &--high {
+      min-height: 660px;
+    }
+
+    &--low {
+      min-height: 340px;
+    }
+  }
+
+  &__inner {
+    display: block;
+    background: $white;
+    box-sizing: border-box;
+    padding: 40px 50px 50px;
+    border-radius: 15px;
+    position: relative;
+
+    &.container {
+      margin: 10% auto 0;
+    }
+  }
+
+  &__title {
+    width: 80%;
+    font-weight: 400;
+    font-size: 26px;
+    color: $dove-gray;
+    margin: 0 auto 35px;
+
+    @media (max-width: $screen-sm) {
+      width: 90%;
+    }
+  }
+
+  &__label {
+    font-size: 18px;
+    color: $dove-gray;
+  }
+
+  &__input {
+    background: inherit;
+    font-size: 22px;
+    color: #414141;
+    width: 100%;
+    outline: 0;
+    border: none;
+    border-bottom: 1px solid $dove-gray;
+    padding: 5px 0;
+    resize: none;
+
+    &:focus {
+      border-bottom: 1px solid $eucalyptus;
+    }
+  }
+
+  &__row {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  &__close-btn {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    background: inherit;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0;
+    outline: 0;
+
+    &:hover {
+      opacity: 0.6;
+    }
+
+    &:focus {
+      &::after,
+      &::before {
+        opacity: 0.6;
+      }
+    }
+
+    &::after,
+    &::before {
+      content: '';
+      width: 30px;
+      height: 4px;
+      background: $flamingo;
+      display: block;
+      border-radius: 5px;
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+      position: relative;
+      top: -4px;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+  }
+
+  &__add-card {
+    background: $flamingo;
+    border: none;
+    color: $white;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 15px;
+    transition: 0.3s;
+    cursor: pointer;
+    outline: 0;
+
+    &:hover, &:focus {
+      opacity: 0.6;
+    }
+  }
+
+  &__error {
+    margin-bottom: 20px;
+    color: $flamingo;
+  }
+
+  &__show-btn-inner {
+    background: $titan-white;
+    width: 100%;
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    padding: 15px;
+
+    @media (max-width: $screen-sm) {
+      padding: 10px;
+    }
+  }
+
+  &__show-btn {
+    background: inherit;
+    border: none;
+    display: block;
+    margin: 0 auto;
+    outline: 0;
+    transition: 0.3s;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  &__add-svg {
+    fill: $flamingo;
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      opacity: 0.6;
+    }
+
+    @media (max-width: $screen-sm) {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  &__remove-card-btn,
+  &__cancel-btn {
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 15px;
+    transition: 0.3s;
+    cursor: pointer;
+    outline: 0;
+
+    &:hover,
+    &:focus {
+      opacity: 0.6;
+    }
+  }
+
+  &__remove-card-btn {
+    background: $flamingo;
+    color: $white;
+    margin-right: 10px;
+  }
+}

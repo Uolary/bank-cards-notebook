@@ -1,0 +1,50 @@
+{
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "no-unused-vars": "off",
+    "max-len": [ "ERROR", 120 ],
+    "arrow-body-style": "off",
+    "arrow-parens": "off",
+    "arrow-spacing": "off",
+    "constructor-super": "error",
+    "generator-star-spacing": "off",
+    "no-class-assign": "error",
+    "no-confusing-arrow": "off",
+    "no-const-assign": "error",
+    "no-dupe-class-members": "error",
+    "no-duplicate-imports": "off",
+    "no-new-symbol": "error",
+    "no-restricted-imports": "off",
+    "no-this-before-super": "error",
+    "no-useless-computed-key": "off",
+    "no-useless-constructor": "off",
+    "no-useless-rename": "off",
+    "no-var": "off",
+    "object-shorthand": "off",
+    "prefer-arrow-callback": "off",
+    "prefer-const": "off",
+    "prefer-reflect": "off",
+    "prefer-rest-params": "off",
+    "prefer-spread": "off",
+    "prefer-template": "off",
+    "require-yield": "error",
+    "rest-spread-spacing": "off",
+    "sort-imports": "off",
+    "template-curly-spacing": "off",
+    "yield-star-spacing": "off",
+    "no-console": "warn",
+    "semi": "error",
+    "no-extra-semi": "error",
+    "semi-spacing": "off"
+  },
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "plugins": [
+    "@babel"
+  ]
+}

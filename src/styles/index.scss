@@ -1,0 +1,28 @@
+@import './variables';
+
+@import 'blocks/app';
+@import 'blocks/header';
+@import 'blocks/card';
+@import 'blocks/modal';
+
+body {
+  margin: 0;
+  background-color: $titan-white;
+  font-family: Arial, Helvetica, 'sans-serif';
+  box-sizing: border-box;
+
+  &.overflow-hidden {
+    overflow: hidden;
+  }
+}
+
+.container {
+  margin: 0 auto;
+  width: 80%;
+  max-width: 600px;
+
+  @media (max-width: $screen-md) {
+    width: 90%;
+    max-width: none;
+  }
+}
