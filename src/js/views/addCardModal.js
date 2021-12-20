@@ -187,14 +187,14 @@ export default class AddCardModal extends Modal {
       case errorsCard.alreadyCard:
         qs(`.${classes.modal.modal__addCard}`).insertAdjacentHTML(
           'beforebegin',
-          this._getElemError('This card number already exists')
+          this._getElemError('This card number already exists.')
         );
         break;
 
       case errorsCard.invalidCard:
         qs(`.${classes.modal.modal__addCard}`).insertAdjacentHTML(
           'beforebegin',
-          this._getElemError('Invalid card number. Supported formats Visa and Mastercard')
+          this._getElemError('Invalid card number. Supported formats Visa and Mastercard.')
         );
         break;
 
@@ -208,7 +208,7 @@ export default class AddCardModal extends Modal {
       case errorsCard.emptyDescription:
         qs(`.${classes.modal.modal__addCard}`).insertAdjacentHTML(
           'beforebegin',
-          this._getElemError('The description for the map is empty')
+          this._getElemError('The description for the bank card is empty.')
         );
         break;
 
