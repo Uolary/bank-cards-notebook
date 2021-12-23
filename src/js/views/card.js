@@ -128,8 +128,6 @@ export default class Card {
         const cardDescriptionElem = event.target.closest(`.${classes.card.card__description}`);
         const isLess = cardDescriptionElem.classList.contains(classes.card.card__descriptionLess);
 
-        lessShowBtn.innerHTML = this._lessShowBtnText(isLess);
-
         if (lessShowBtn && isLess) {
           cardDescriptionElem.classList.remove(classes.card.card__descriptionLess);
           lessShowBtn.classList.remove(classes.card.card__lessShowDescriptionAbsolute);
