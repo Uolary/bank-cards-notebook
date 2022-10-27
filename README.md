@@ -11,10 +11,10 @@
 
 ## Commands
 
-* `` 'npm run dev`` - build development.
-* `` 'npm run build`` - build production.
-* `` 'npm start`` - track files and open them in the browser.
-* `` 'npm run stats`` - look at the sizes and stats of the bundle.
+* `` npm run dev`` - build development.
+* `` npm run build`` - build production.
+* `` npm start`` - track files and open them in the browser.
+* `` npm run stats`` - look at the sizes and stats of the bundle.
 
 ## Development
 
